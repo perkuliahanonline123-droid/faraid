@@ -12,11 +12,11 @@
 </head>
 <body class="text-slate-800 p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+    <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
         <!-- Header -->
         <div class="bg-emerald-700 text-white p-6 text-center">
             <h1 class="text-2xl font-bold mb-2">Kalkulator Waris Faraid</h1>
-            <p class="text-emerald-100 text-sm">Berdasarkan Mazhab Syafi'i (Mendukung 'Aul, Rad, Gharawain & Jadd wa Ikhwah)</p>
+            <p class="text-emerald-100 text-sm">Berdasarkan Mazhab Syafi'i (Lengkap 10 Laki-laki & 7 Perempuan)</p>
         </div>
 
         <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
@@ -107,6 +107,28 @@
                             <label class="block text-sm font-semibold mb-1 text-emerald-700">Sdr Seibu (Lk/Pr)</label>
                             <input type="number" id="sdrIbu" min="0" value="0" class="w-full p-2 border border-slate-300 rounded outline-none">
                         </div>
+                        <div></div>
+
+                        <!-- Asabah Lainnya (Keponakan, Paman, Pembebas Budak) -->
+                        <div class="col-span-2 mt-2">
+                            <h3 class="text-sm font-bold text-emerald-700 border-b pb-1 mb-2">Kerabat Lain (Asabah) & Pembebas Budak</h3>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Keponakan Lk (Anak Sdr Lk)</label>
+                            <input type="number" id="keponakanLk" min="0" value="0" class="w-full p-2 border border-slate-300 rounded outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Paman (Pihak Bapak)</label>
+                            <input type="number" id="paman" min="0" value="0" class="w-full p-2 border border-slate-300 rounded outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Sepupu Lk (Anak Paman)</label>
+                            <input type="number" id="anakPaman" min="0" value="0" class="w-full p-2 border border-slate-300 rounded outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Pembebas Budak (Mu'tiq)</label>
+                            <input type="number" id="mutiq" min="0" value="0" class="w-full p-2 border border-slate-300 rounded outline-none">
+                        </div>
                     </div>
                 </div>
 
@@ -165,7 +187,7 @@
             const totalHarta = parseFloat(document.getElementById('totalHarta').value) || 0;
             const gender = document.getElementById('gender').value;
             
-            // Ahli Waris Object (Dilengkapi)
+            // Ahli Waris Object (Telah dilengkapi dengan Asabah Ekstra)
             const aw = {
                 pasangan: parseInt(document.getElementById('pasangan').value) || 0,
                 ayah: parseInt(document.getElementById('ayah').value) || 0,
@@ -181,6 +203,10 @@
                 sdrLkBapak: parseInt(document.getElementById('sdrLkBapak').value) || 0,
                 sdrPrBapak: parseInt(document.getElementById('sdrPrBapak').value) || 0,
                 sdrIbu: parseInt(document.getElementById('sdrIbu').value) || 0,
+                keponakanLk: parseInt(document.getElementById('keponakanLk').value) || 0,
+                paman: parseInt(document.getElementById('paman').value) || 0,
+                anakPaman: parseInt(document.getElementById('anakPaman').value) || 0,
+                mutiq: parseInt(document.getElementById('mutiq').value) || 0
             };
 
             const hasFuru = aw.anakLk > 0 || aw.anakPr > 0 || aw.cucuLk > 0 || aw.cucuPr > 0;
@@ -190,19 +216,22 @@
 
             let saham = {}; 
 
-            // 1. SISTEM HUJUB (PENGHALANG) YANG DIPERBAIKI
-            // Ayah menghalangi kakek, nenek (pihak ayah), & semua saudara
+            // 1. SISTEM HUJUB (PENGHALANG) YANG DIPERBAIKI & DILENGKAPI
+            
+            // Ayah menghalangi kakek, nenek (pihak ayah), & semua saudara + asabah kerabat jauh
             if (aw.ayah > 0) { 
                 aw.kakek = 0; aw.sdrLk = 0; aw.sdrPr = 0; aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; aw.sdrIbu = 0; 
+                aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0;
             }
-            if (aw.ibu > 0) aw.nenek = 0;  // Ibu menghalangi nenek
+            if (aw.ibu > 0) aw.nenek = 0; 
             
-            // Furu' Laki-laki menghalangi semua saudara
+            // Furu' Laki-laki (Anak/Cucu Lk) menghalangi semua saudara + asabah kerabat jauh
             if (hasFuruLk) { 
                 aw.sdrLk = 0; aw.sdrPr = 0; aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; aw.sdrIbu = 0; 
+                aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0;
             }
             
-            // Furu' Pr (Anak/Cucu Pr) dan Kakek menghalangi saudara seibu
+            // Furu' Pr dan Kakek menghalangi saudara seibu
             if (aw.anakPr > 0 || aw.cucuPr > 0 || aw.kakek > 0) { aw.sdrIbu = 0; }
             
             // Anak Lk menghalangi cucu
@@ -210,15 +239,33 @@
             // 2 Anak Pr menghalangi cucu Pr (Kecuali ada cucu Lk)
             if (aw.anakPr >= 2 && aw.cucuLk === 0) { aw.cucuPr = 0; }
 
-            // Sdr Lk sekandung menghalangi saudara sebapak
-            if (aw.sdrLk > 0) { aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; }
+            // Kakek menghalangi Keponakan, Paman, dan Sepupu
+            if (aw.kakek > 0) { aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; }
+
+            // Sdr Lk sekandung menghalangi saudara sebapak + kerabat jauh
+            if (aw.sdrLk > 0) { 
+                aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; 
+                aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
+            }
             
-            // Jika sdr pr sekandung menjadi Asabah Ma'al Ghair, ia menghalangi sdr sebapak
+            // Asabah Ma'al Ghair (Sdr Pr Sekandung bersama Anak/Cucu Pr)
             let sdrPrKandungAsabahGhair = (aw.sdrPr > 0 && aw.sdrLk === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
-            if (sdrPrKandungAsabahGhair) { aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; }
+            if (sdrPrKandungAsabahGhair) { 
+                aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; 
+                aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
+            }
             
             // 2 Sdr Pr sekandung menghalangi Sdr Pr sebapak (Kecuali ada Sdr Lk Sebapak)
             if (aw.sdrPr >= 2 && aw.sdrLkBapak === 0) { aw.sdrPrBapak = 0; }
+
+            let sdrPrBapakAsabahGhair = (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
+            if (aw.sdrLkBapak > 0 || sdrPrBapakAsabahGhair) { 
+                aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
+            }
+
+            // Hujub berjenjang untuk Asabah jauh
+            if (aw.keponakanLk > 0) { aw.paman = 0; aw.anakPaman = 0; }
+            if (aw.paman > 0) { aw.anakPaman = 0; }
 
             // 2. TENTUKAN FURUDH (BAGIAN PASTI)
             let isGharawain = (!hasFuru && !hasSdrBanyak && aw.ayah > 0 && aw.ibu > 0 && aw.pasangan > 0);
@@ -229,7 +276,7 @@
             }
 
             if (aw.ibu > 0) {
-                if (isGharawain) { // Kasus Umariyyatain/Gharawain
+                if (isGharawain) { 
                     saham['Ibu (Gharawain)'] = { n: 1, d: (gender === 'p') ? 6 : 4, isAsabah: false, count: 1 };
                 } else {
                     saham['Ibu'] = { n: 1, d: (hasFuru || hasSdrBanyak) ? 6 : 3, isAsabah: false, count: 1 };
@@ -240,34 +287,31 @@
                 saham['Nenek'] = { n: 1, d: 6, isAsabah: false, count: aw.nenek };
             }
 
-            // Furu' Perempuan
             if (aw.anakPr > 0 && aw.anakLk === 0) {
                 saham['Anak Perempuan'] = { n: aw.anakPr === 1 ? 1 : 2, d: aw.anakPr === 1 ? 2 : 3, isAsabah: false, count: aw.anakPr };
             }
+            
             if (aw.cucuPr > 0 && aw.cucuLk === 0) {
                 if (aw.anakPr === 0) saham['Cucu Perempuan'] = { n: aw.cucuPr === 1 ? 1 : 2, d: aw.cucuPr === 1 ? 2 : 3, isAsabah: false, count: aw.cucuPr };
                 else if (aw.anakPr === 1) saham['Cucu Perempuan (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.cucuPr };
             }
 
-            // Saudara Perempuan
             if (aw.sdrPr > 0 && aw.sdrLk === 0 && !sdrPrKandungAsabahGhair && aw.kakek === 0) {
                 saham['Sdr Pr Sekandung'] = { n: aw.sdrPr === 1 ? 1 : 2, d: aw.sdrPr === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPr };
             }
             
-            let sdrPrBapakAsabahGhair = (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
             if (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && !sdrPrBapakAsabahGhair && aw.kakek === 0) {
                 if (aw.sdrPr === 0) saham['Sdr Pr Sebapak'] = { n: aw.sdrPrBapak === 1 ? 1 : 2, d: aw.sdrPrBapak === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPrBapak };
                 else if (aw.sdrPr === 1) saham['Sdr Pr Sebapak (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.sdrPrBapak };
             }
 
-            // Saudara Seibu (Dibagi rata Pria/Wanita)
             if (aw.sdrIbu > 0) {
                 saham['Saudara Seibu'] = { n: aw.sdrIbu === 1 ? 1 : 1, d: aw.sdrIbu === 1 ? 6 : 3, isAsabah: false, count: aw.sdrIbu };
             }
 
-            // Ayah dan Kakek
             let ayahAsabah = false;
             let kakekAsabah = false;
+            
             if (aw.ayah > 0) {
                 if (hasFuruLk) saham['Ayah'] = { n: 1, d: 6, isAsabah: false, count: 1 };
                 else if (hasFuru) { saham['Ayah'] = { n: 1, d: 6, isAsabah: true, count: 1 }; ayahAsabah = true; }
@@ -278,12 +322,12 @@
                 if (hasFuruLk) saham['Kakek'] = { n: 1, d: 6, isAsabah: false, count: 1 };
                 else if (hasFuru) { saham['Kakek'] = { n: 1, d: 6, isAsabah: true, count: 1 }; kakekAsabah = true; }
                 else if (aw.sdrLk > 0 || aw.sdrPr > 0 || aw.sdrLkBapak > 0 || aw.sdrPrBapak > 0) {
-                    saham['Kakek (Jadd wa Ikhwah)'] = { n: 1, d: 3, isAsabah: false, count: 1 }; // Versi disederhanakan
+                    saham['Kakek (Jadd wa Ikhwah)'] = { n: 1, d: 3, isAsabah: false, count: 1 }; 
                 }
                 else kakekAsabah = true;
             }
 
-            // 3. TENTUKAN ASABAH (SISA)
+            // 3. TENTUKAN ASABAH (SISA) BERJENJANG
             let asabahPihak = null; 
             
             if (aw.anakLk > 0) {
@@ -304,6 +348,18 @@
             } else if (aw.sdrLkBapak > 0 || sdrPrBapakAsabahGhair) {
                 asabahPihak = 'Saudara Sebapak';
                 saham['Asabah (Sdr Sebapak)'] = { isAsabah: true, lk: aw.sdrLkBapak, pr: aw.sdrPrBapak };
+            } else if (aw.keponakanLk > 0) {
+                asabahPihak = 'Keponakan Lk';
+                saham['Asabah (Keponakan Lk)'] = { isAsabah: true, lk: aw.keponakanLk, pr: 0 };
+            } else if (aw.paman > 0) {
+                asabahPihak = 'Paman';
+                saham['Asabah (Paman)'] = { isAsabah: true, lk: aw.paman, pr: 0 };
+            } else if (aw.anakPaman > 0) {
+                asabahPihak = 'Anak Paman';
+                saham['Asabah (Sepupu Lk/Anak Paman)'] = { isAsabah: true, lk: aw.anakPaman, pr: 0 };
+            } else if (aw.mutiq > 0) {
+                asabahPihak = 'Pembebas Budak';
+                saham['Asabah (Pembebas Budak)'] = { isAsabah: true, lk: aw.mutiq, pr: 0 };
             }
 
             // 4. MENGHITUNG ASAL MASALAH
@@ -366,8 +422,7 @@
             
             if (statusText !== "Normal") {
                 statusEl.innerText = statusText;
-                statusEl.classList.remove('hidden');
-                statusEl.classList.remove('bg-blue-100', 'text-blue-800');
+                statusEl.classList.remove('hidden', 'bg-blue-100', 'text-blue-800');
                 if(statusText.includes('Aul')) statusEl.classList.add('bg-red-100', 'text-red-800');
                 else statusEl.classList.add('bg-amber-100', 'text-amber-800');
             } else {
@@ -383,13 +438,18 @@
                 let namaDisplay = key;
                 let detilUang = "";
 
-                if (saham[key]?.isAsabah && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr'))) {
+                if (saham[key]?.isAsabah && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr') || key.includes('Keponakan') || key.includes('Paman') || key.includes('Pembebas'))) {
                     let d = saham[key];
-                    let totalKepala = (d.lk * 2) + d.pr; 
+                    // Asabah pria = 2 bagian, wanita = 1 bagian (kecuali asabah pria yang sendirian)
+                    let totalKepala = (d.pr !== undefined) ? (d.lk * 2) + d.pr : d.lk; 
                     let uangPerKepala = (porsi * nilaiPerSaham) / totalKepala;
                     
-                    if (d.lk > 0) detilUang += `<div>Pria (${d.lk} org): <b>Rp ${(uangPerKepala * 2 * d.lk).toLocaleString('id-ID')}</b> (Rp ${(uangPerKepala * 2).toLocaleString('id-ID')}/org)</div>`;
-                    if (d.pr > 0) detilUang += `<div>Wanita (${d.pr} org): <b>Rp ${(uangPerKepala * d.pr).toLocaleString('id-ID')}</b> (Rp ${uangPerKepala.toLocaleString('id-ID')}/org)</div>`;
+                    if (d.pr !== undefined) {
+                        if (d.lk > 0) detilUang += `<div>Pria (${d.lk} org): <b>Rp ${(uangPerKepala * 2 * d.lk).toLocaleString('id-ID')}</b> (Rp ${(uangPerKepala * 2).toLocaleString('id-ID')}/org)</div>`;
+                        if (d.pr > 0) detilUang += `<div>Wanita (${d.pr} org): <b>Rp ${(uangPerKepala * d.pr).toLocaleString('id-ID')}</b> (Rp ${uangPerKepala.toLocaleString('id-ID')}/org)</div>`;
+                    } else {
+                        detilUang += `<div>${d.lk} Orang: <b>Rp ${(porsi * nilaiPerSaham).toLocaleString('id-ID')}</b> (Rp ${(porsi * nilaiPerSaham / d.lk).toLocaleString('id-ID')}/org)</div>`;
+                    }
                 } else if (key === 'Saudara Seibu') {
                     let count = saham[key].count;
                     let totalUang = porsi * nilaiPerSaham;
