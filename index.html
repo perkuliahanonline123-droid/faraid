@@ -158,7 +158,7 @@
     </div>
 
     <script>
-        // Mengubah label Istri/Suami dinamis berdasarkan jenis kelamin
+                // Mengubah label Istri/Suami dinamis berdasarkan jenis kelamin
         document.getElementById('gender').addEventListener('change', function() {
             const label = document.getElementById('labelPasangan');
             const input = document.getElementById('pasangan');
@@ -171,7 +171,7 @@
                 if(input.value > 1) input.value = 1;
             }
         });
-
+        
         // Utilities Matematika Pecahan (KPK dan FPB)
         function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
         function lcm(a, b) { return (a * b) / gcd(a, b); }
@@ -181,13 +181,13 @@
             for (let i = 1; i < arr.length; i++) result = lcm(result, arr[i]);
             return result;
         }
-
+        
         // Fungsi Utama
         function hitungFaraid() {
             const totalHarta = parseFloat(document.getElementById('totalHarta').value) || 0;
             const gender = document.getElementById('gender').value;
             
-            // Ahli Waris Object (Telah dilengkapi dengan Asabah Ekstra)
+            // Ahli Waris Object
             const aw = {
                 pasangan: parseInt(document.getElementById('pasangan').value) || 0,
                 ayah: parseInt(document.getElementById('ayah').value) || 0,
@@ -208,85 +208,82 @@
                 anakPaman: parseInt(document.getElementById('anakPaman').value) || 0,
                 mutiq: parseInt(document.getElementById('mutiq').value) || 0
             };
-
+        
             const hasFuru = aw.anakLk > 0 || aw.anakPr > 0 || aw.cucuLk > 0 || aw.cucuPr > 0;
             const hasFuruLk = aw.anakLk > 0 || aw.cucuLk > 0;
             const totalSdr = aw.sdrLk + aw.sdrPr + aw.sdrLkBapak + aw.sdrPrBapak + aw.sdrIbu;
             const hasSdrBanyak = totalSdr > 1;
-
+        
             let saham = {}; 
-
-            // 1. SISTEM HUJUB (PENGHALANG) YANG DIPERBAIKI & DILENGKAPI
-            
-            // Ayah menghalangi kakek, nenek (pihak ayah), & semua saudara + asabah kerabat jauh
+        
+            // 1. SISTEM HUJUB (PENGHALANG)
             if (aw.ayah > 0) { 
                 aw.kakek = 0; aw.sdrLk = 0; aw.sdrPr = 0; aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; aw.sdrIbu = 0; 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0;
             }
             if (aw.ibu > 0) aw.nenek = 0; 
-            
-            // Furu' Laki-laki (Anak/Cucu Lk) menghalangi semua saudara + asabah kerabat jauh
             if (hasFuruLk) { 
                 aw.sdrLk = 0; aw.sdrPr = 0; aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; aw.sdrIbu = 0; 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0;
             }
-            
-            // Furu' Pr dan Kakek menghalangi saudara seibu
             if (aw.anakPr > 0 || aw.cucuPr > 0 || aw.kakek > 0) { aw.sdrIbu = 0; }
-            
-            // Anak Lk menghalangi cucu
             if (aw.anakLk > 0) { aw.cucuLk = 0; aw.cucuPr = 0; }
-            // 2 Anak Pr menghalangi cucu Pr (Kecuali ada cucu Lk)
             if (aw.anakPr >= 2 && aw.cucuLk === 0) { aw.cucuPr = 0; }
-
-            // Kakek menghalangi Keponakan, Paman, dan Sepupu
             if (aw.kakek > 0) { aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; }
-
-            // Sdr Lk sekandung menghalangi saudara sebapak + kerabat jauh
             if (aw.sdrLk > 0) { 
                 aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
             }
             
-            // Asabah Ma'al Ghair (Sdr Pr Sekandung bersama Anak/Cucu Pr)
             let sdrPrKandungAsabahGhair = (aw.sdrPr > 0 && aw.sdrLk === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
             if (sdrPrKandungAsabahGhair) { 
                 aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
             }
             
-            // 2 Sdr Pr sekandung menghalangi Sdr Pr sebapak (Kecuali ada Sdr Lk Sebapak)
             if (aw.sdrPr >= 2 && aw.sdrLkBapak === 0) { aw.sdrPrBapak = 0; }
-
             let sdrPrBapakAsabahGhair = (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
             if (aw.sdrLkBapak > 0 || sdrPrBapakAsabahGhair) { 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
             }
-
-            // Hujub berjenjang untuk Asabah jauh
             if (aw.keponakanLk > 0) { aw.paman = 0; aw.anakPaman = 0; }
             if (aw.paman > 0) { aw.anakPaman = 0; }
-
+        
+            // ==========================================
+            // 1.5. DETEKSI MUSYTARAKAH (HIMARIYAH)
+            // ==========================================
+            let isMusytarakah = (gender === 'p' && aw.pasangan === 1 && !hasFuru && aw.ayah === 0 && aw.kakek === 0 &&
+                                 (aw.ibu > 0 || aw.nenek > 0) && aw.sdrIbu >= 2 && aw.sdrLk > 0);
+        
+            let sdrIbu_M = 0, sdrLk_M = 0, sdrPr_M = 0;
+            if (isMusytarakah) {
+                sdrIbu_M = aw.sdrIbu;
+                sdrLk_M = aw.sdrLk;
+                sdrPr_M = aw.sdrPr;
+                // Di-nol-kan agar tidak masuk ke perhitungan fardhu/asabah reguler
+                aw.sdrIbu = 0; aw.sdrLk = 0; aw.sdrPr = 0; 
+            }
+        
             // 2. TENTUKAN FURUDH (BAGIAN PASTI)
             let isGharawain = (!hasFuru && !hasSdrBanyak && aw.ayah > 0 && aw.ibu > 0 && aw.pasangan > 0);
-
+        
             if (aw.pasangan > 0) {
                 if (gender === 'p') saham['Suami'] = { n: 1, d: hasFuru ? 4 : 2, isAsabah: false, count: aw.pasangan };
                 else saham['Istri'] = { n: 1, d: hasFuru ? 8 : 4, isAsabah: false, count: aw.pasangan };
             }
-
+        
             if (aw.ibu > 0) {
                 if (isGharawain) { 
                     saham['Ibu (Gharawain)'] = { n: 1, d: (gender === 'p') ? 6 : 4, isAsabah: false, count: 1 };
                 } else {
-                    saham['Ibu'] = { n: 1, d: (hasFuru || hasSdrBanyak) ? 6 : 3, isAsabah: false, count: 1 };
+                    saham['Ibu'] = { n: 1, d: (hasFuru || hasSdrBanyak || isMusytarakah) ? 6 : 3, isAsabah: false, count: 1 };
                 }
             }
-
+        
             if (aw.nenek > 0 && aw.ibu === 0) {
                 saham['Nenek'] = { n: 1, d: 6, isAsabah: false, count: aw.nenek };
             }
-
+        
             if (aw.anakPr > 0 && aw.anakLk === 0) {
                 saham['Anak Perempuan'] = { n: aw.anakPr === 1 ? 1 : 2, d: aw.anakPr === 1 ? 2 : 3, isAsabah: false, count: aw.anakPr };
             }
@@ -295,7 +292,7 @@
                 if (aw.anakPr === 0) saham['Cucu Perempuan'] = { n: aw.cucuPr === 1 ? 1 : 2, d: aw.cucuPr === 1 ? 2 : 3, isAsabah: false, count: aw.cucuPr };
                 else if (aw.anakPr === 1) saham['Cucu Perempuan (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.cucuPr };
             }
-
+        
             if (aw.sdrPr > 0 && aw.sdrLk === 0 && !sdrPrKandungAsabahGhair && aw.kakek === 0) {
                 saham['Sdr Pr Sekandung'] = { n: aw.sdrPr === 1 ? 1 : 2, d: aw.sdrPr === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPr };
             }
@@ -304,11 +301,20 @@
                 if (aw.sdrPr === 0) saham['Sdr Pr Sebapak'] = { n: aw.sdrPrBapak === 1 ? 1 : 2, d: aw.sdrPrBapak === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPrBapak };
                 else if (aw.sdrPr === 1) saham['Sdr Pr Sebapak (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.sdrPrBapak };
             }
-
+        
             if (aw.sdrIbu > 0) {
                 saham['Saudara Seibu'] = { n: aw.sdrIbu === 1 ? 1 : 1, d: aw.sdrIbu === 1 ? 6 : 3, isAsabah: false, count: aw.sdrIbu };
             }
-
+        
+            // Eksekusi Porsi Musytarakah
+            if (isMusytarakah) {
+                let totalM = sdrIbu_M + sdrLk_M + sdrPr_M;
+                saham['Sdr Kandung & Seibu (Masalah Musytarakah)'] = { 
+                    n: 1, d: 3, isAsabah: false, count: totalM, isMusytarakahGroup: true, 
+                    sdrIbu: sdrIbu_M, sdrLk: sdrLk_M, sdrPr: sdrPr_M 
+                };
+            }
+        
             let ayahAsabah = false;
             let kakekAsabah = false;
             
@@ -317,7 +323,7 @@
                 else if (hasFuru) { saham['Ayah'] = { n: 1, d: 6, isAsabah: true, count: 1 }; ayahAsabah = true; }
                 else ayahAsabah = true;
             }
-
+        
             if (aw.kakek > 0) {
                 if (hasFuruLk) saham['Kakek'] = { n: 1, d: 6, isAsabah: false, count: 1 };
                 else if (hasFuru) { saham['Kakek'] = { n: 1, d: 6, isAsabah: true, count: 1 }; kakekAsabah = true; }
@@ -326,7 +332,7 @@
                 }
                 else kakekAsabah = true;
             }
-
+        
             // 3. TENTUKAN ASABAH (SISA) BERJENJANG
             let asabahPihak = null; 
             
@@ -361,7 +367,7 @@
                 asabahPihak = 'Pembebas Budak';
                 saham['Asabah (Pembebas Budak)'] = { isAsabah: true, lk: aw.mutiq, pr: 0 };
             }
-
+        
             // 4. MENGHITUNG ASAL MASALAH
             let penyebutList = [];
             for (let key in saham) {
@@ -369,7 +375,7 @@
             }
             let asalMasalah = arrayLcm(penyebutList);
             if (asalMasalah === 1 && asabahPihak) asalMasalah = 1;
-
+        
             let totalPembilang = 0;
             let furudhData = {};
             for (let key in saham) {
@@ -379,10 +385,10 @@
                     totalPembilang += nilaiPembilang;
                 }
             }
-
+        
             let statusText = "Normal";
             let sisaSaham = asalMasalah - totalPembilang;
-
+        
             // 5. LOGIKA 'AUL & RAD
             if (totalPembilang > asalMasalah) {
                 statusText = `Terdapat 'Aul: Asal Masalah naik dari ${asalMasalah} menjadi ${totalPembilang}`;
@@ -402,7 +408,7 @@
                     asalMasalah = totalPembilang;
                 }
             }
-
+        
             // 6. DISTRIBUSI KE ASABAH
             if (asabahPihak && sisaSaham > 0) {
                 let found = false;
@@ -415,7 +421,7 @@
                 if(!found && saham['Ayah']) furudhData['Ayah'] = (furudhData['Ayah'] || 0) + sisaSaham;
                 if(!found && saham['Kakek']) furudhData['Kakek'] = (furudhData['Kakek'] || 0) + sisaSaham;
             }
-
+        
             // 7. RENDER HASIL
             let hasilHTML = "";
             let statusEl = document.getElementById('statusKondisi');
@@ -428,19 +434,25 @@
             } else {
                 statusEl.classList.add('hidden');
             }
-
+        
             let nilaiPerSaham = totalHarta / asalMasalah;
             
             for (let key in furudhData) {
                 let porsi = furudhData[key];
                 if (porsi <= 0) continue;
-
+        
                 let namaDisplay = key;
                 let detilUang = "";
-
-                if (saham[key]?.isAsabah && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr') || key.includes('Keponakan') || key.includes('Paman') || key.includes('Pembebas'))) {
+        
+                if (saham[key]?.isMusytarakahGroup) {
+                    // Render khusus untuk kasus Musytarakah (dibagi rata per kepala tanpa membedakan gender)
+                    let count = saham[key].count;
+                    let totalUang = porsi * nilaiPerSaham;
+                    detilUang = `<div>${count} Orang Dibagi Rata: <b>Rp ${totalUang.toLocaleString('id-ID')}</b> (Rp ${(totalUang/count).toLocaleString('id-ID')}/org)</div>
+                                 <div class="text-xs text-slate-500 mt-1">Gabungan: ${saham[key].sdrIbu} Sdr Seibu, ${saham[key].sdrLk} Sdr Lk Kandung, ${saham[key].sdrPr} Sdr Pr Kandung. Laki-laki dan perempuan mendapat bagian sama besar (1:1).</div>`;
+                } 
+                else if (saham[key]?.isAsabah && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr') || key.includes('Keponakan') || key.includes('Paman') || key.includes('Pembebas'))) {
                     let d = saham[key];
-                    // Asabah pria = 2 bagian, wanita = 1 bagian (kecuali asabah pria yang sendirian)
                     let totalKepala = (d.pr !== undefined) ? (d.lk * 2) + d.pr : d.lk; 
                     let uangPerKepala = (porsi * nilaiPerSaham) / totalKepala;
                     
@@ -459,7 +471,7 @@
                     let totalUang = porsi * nilaiPerSaham;
                     detilUang = `<div>${count > 1 ? count + ' Orang' : '1 Orang'}: <b>Rp ${totalUang.toLocaleString('id-ID')}</b> ${count > 1 ? '(Masing-masing: Rp ' + (totalUang/count).toLocaleString('id-ID') + ')' : ''}</div>`;
                 }
-
+        
                 hasilHTML += `
                     <div class="bg-white p-3 rounded border border-slate-200">
                         <div class="flex justify-between items-center mb-1">
@@ -470,11 +482,11 @@
                     </div>
                 `;
             }
-
+        
             if(Object.keys(furudhData).length === 0) {
                 hasilHTML = "<p class='text-red-500 font-bold'>Tidak ada ahli waris yang menerima bagian. Pastikan form diisi.</p>";
             }
-
+        
             document.getElementById('hasilDiv').innerHTML = hasilHTML;
             document.getElementById('asalMasalahDiv').innerHTML = `Asal Masalah: <b>${asalMasalah}</b> <br> Nilai 1 Saham: <b>Rp ${Math.floor(nilaiPerSaham).toLocaleString('id-ID')}</b>`;
         }
