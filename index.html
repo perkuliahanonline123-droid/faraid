@@ -316,7 +316,7 @@
             }
         });
         
-        // Utilities Matematika Pecahan (KPK dan FPB)
+        // Utilities Matematika Pecahan (KPK, FPB, dan Operasi Pecahan Exact)
         function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
         function lcm(a, b) { return (a * b) / gcd(a, b); }
         function arrayLcm(arr) {
@@ -325,12 +325,17 @@
             for (let i = 1; i < arr.length; i++) result = lcm(result, arr[i]);
             return result;
         }
+        // Helper Pecahan Presisi untuk kasus Al-Mu'addah dan Zaidiyyah
+        function simplifyF(n, d) { let g = gcd(Math.abs(Math.round(n)), Math.abs(Math.round(d))); return g === 0 ? [0, 1] : [n / g, d / g]; }
+        function addF(a, b) { return simplifyF(a[0] * b[1] + b[0] * a[1], a[1] * b[1]); }
+        function subF(a, b) { return simplifyF(a[0] * b[1] - b[0] * a[1], a[1] * b[1]); }
+        function mulF(a, b) { return simplifyF(a[0] * b[0], a[1] * b[1]); }
         
         // Fungsi Utama
         function hitungFaraid() {
             const totalHarta = parseFloat(document.getElementById('totalHarta').value) || 0;
             const gender = document.getElementById('gender').value;
-            
+        
             // Ahli Waris Object
             const aw = {
                 pasangan: parseInt(document.getElementById('pasangan').value) || 0,
@@ -378,13 +383,13 @@
                 aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
             }
-            
+        
             let sdrPrKandungAsabahGhair = (aw.sdrPr > 0 && aw.sdrLk === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
             if (sdrPrKandungAsabahGhair) { 
                 aw.sdrLkBapak = 0; aw.sdrPrBapak = 0; 
                 aw.keponakanLk = 0; aw.paman = 0; aw.anakPaman = 0; 
             }
-            
+        
             if (aw.sdrPr >= 2 && aw.sdrLkBapak === 0) { aw.sdrPrBapak = 0; }
             let sdrPrBapakAsabahGhair = (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && (aw.anakPr > 0 || aw.cucuPr > 0));
             if (aw.sdrLkBapak > 0 || sdrPrBapakAsabahGhair) { 
@@ -399,9 +404,7 @@
         
             let sdrIbu_M = 0, sdrLk_M = 0, sdrPr_M = 0;
             if (isMusytarakah) {
-                sdrIbu_M = aw.sdrIbu;
-                sdrLk_M = aw.sdrLk;
-                sdrPr_M = aw.sdrPr;
+                sdrIbu_M = aw.sdrIbu; sdrLk_M = aw.sdrLk; sdrPr_M = aw.sdrPr;
                 aw.sdrIbu = 0; aw.sdrLk = 0; aw.sdrPr = 0; 
             }
         
@@ -421,31 +424,15 @@
                 }
             }
         
-            if (aw.nenek > 0 && aw.ibu === 0) {
-                saham['Nenek'] = { n: 1, d: 6, isAsabah: false, count: aw.nenek };
-            }
-        
-            if (aw.anakPr > 0 && aw.anakLk === 0) {
-                saham['Anak Perempuan'] = { n: aw.anakPr === 1 ? 1 : 2, d: aw.anakPr === 1 ? 2 : 3, isAsabah: false, count: aw.anakPr };
-            }
+            if (aw.nenek > 0 && aw.ibu === 0) saham['Nenek'] = { n: 1, d: 6, isAsabah: false, count: aw.nenek };
+            if (aw.anakPr > 0 && aw.anakLk === 0) saham['Anak Perempuan'] = { n: aw.anakPr === 1 ? 1 : 2, d: aw.anakPr === 1 ? 2 : 3, isAsabah: false, count: aw.anakPr };
             
             if (aw.cucuPr > 0 && aw.cucuLk === 0) {
                 if (aw.anakPr === 0) saham['Cucu Perempuan'] = { n: aw.cucuPr === 1 ? 1 : 2, d: aw.cucuPr === 1 ? 2 : 3, isAsabah: false, count: aw.cucuPr };
                 else if (aw.anakPr === 1) saham['Cucu Perempuan (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.cucuPr };
             }
         
-            if (aw.sdrPr > 0 && aw.sdrLk === 0 && !sdrPrKandungAsabahGhair && aw.kakek === 0) {
-                saham['Sdr Pr Sekandung'] = { n: aw.sdrPr === 1 ? 1 : 2, d: aw.sdrPr === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPr };
-            }
-            
-            if (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && !sdrPrBapakAsabahGhair && aw.kakek === 0) {
-                if (aw.sdrPr === 0) saham['Sdr Pr Sebapak'] = { n: aw.sdrPrBapak === 1 ? 1 : 2, d: aw.sdrPrBapak === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPrBapak };
-                else if (aw.sdrPr === 1) saham['Sdr Pr Sebapak (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.sdrPrBapak };
-            }
-        
-            if (aw.sdrIbu > 0) {
-                saham['Saudara Seibu'] = { n: aw.sdrIbu === 1 ? 1 : 1, d: aw.sdrIbu === 1 ? 6 : 3, isAsabah: false, count: aw.sdrIbu };
-            }
+            if (aw.sdrIbu > 0) saham['Saudara Seibu'] = { n: 1, d: aw.sdrIbu === 1 ? 6 : 3, isAsabah: false, count: aw.sdrIbu };
         
             if (isMusytarakah) {
                 let totalM = sdrIbu_M + sdrLk_M + sdrPr_M;
@@ -455,6 +442,91 @@
                 };
             }
         
+            // =================================================================
+            // 2.5. LOGIKA KHUSUS: AL-JADD WA AL-IKHWAH (KAKEK & SAUDARA)
+            // =================================================================
+            let hasIkhwah = (aw.sdrLk > 0 || aw.sdrPr > 0 || aw.sdrLkBapak > 0 || aw.sdrPrBapak > 0);
+            let kakekJaddWaIkhwah = (aw.kakek > 0 && aw.ayah === 0 && !hasFuruLk && hasIkhwah);
+        
+            if (kakekJaddWaIkhwah) {
+                let sumF = [0, 1];
+                let ashabulFurudhKeys = ['Suami', 'Istri', 'Ibu', 'Ibu (Gharawain)', 'Nenek', 'Anak Perempuan', 'Cucu Perempuan', 'Cucu Perempuan (Takmilah)'];
+                for (let k of ashabulFurudhKeys) {
+                    if (saham[k]) sumF = addF(sumF, [saham[k].n, saham[k].d]);
+                }
+        
+                let R = subF([1, 1], sumF);
+                // Kepala Kakek dihitung 2, disetarakan dengan saudara laki-laki
+                let s_heads = (aw.sdrLk * 2) + aw.sdrPr + (aw.sdrLkBapak * 2) + aw.sdrPrBapak;
+                let kakek_F = [0, 1];
+                let opsiKakek = "";
+        
+                if (sumF[0] === 0) { 
+                    // Keadaan Pertama: Tanpa Ashabul Furudh
+                    let val1 = 1 / 3;
+                    let val2 = 2 / (2 + s_heads); // Proporsi Muqasamah untuk kakek
+                    if (val2 > val1 + 1e-9) { // Muqasamah lebih baik
+                        kakek_F = [2, 2 + s_heads];
+                        opsiKakek = "Muqasamah";
+                    } else { // 1/3 Harta lebih baik atau setara (prioritas Fardh)
+                        kakek_F = [1, 3];
+                        opsiKakek = "1/3 Seluruh Harta";
+                    }
+                } else { 
+                    // Keadaan Kedua: Bersama Ashabul Furudh
+                    if (R[0] <= 0) { // Harta habis/kurang dari 1/6
+                        kakek_F = [1, 6];
+                        opsiKakek = "1/6 Seluruh Harta ('Aul)";
+                    } else {
+                        let v1 = [1, 6]; // 1/6 Harta
+                        let v2 = mulF([1, 3], R); // 1/3 Sisa (Baqi)
+                        let v3 = mulF([2, 2 + s_heads], R); // Muqasamah Sisa
+                        
+                        let val1 = v1[0] / v1[1], val2 = v2[0] / v2[1], val3 = v3[0] / v3[1];
+                        let maxV = Math.max(val1, val2, val3);
+                        
+                        // Bias penentuan jika setara (1/6 harta atau 1/3 sisa lebih utama secara hukum Fardh dari Muqasamah)
+                        if (Math.abs(maxV - val1) < 1e-9) { kakek_F = v1; opsiKakek = "1/6 Seluruh Harta"; }
+                        else if (Math.abs(maxV - val2) < 1e-9) { kakek_F = v2; opsiKakek = "1/3 Sisa (Baqi)"; }
+                        else { kakek_F = v3; opsiKakek = "Muqasamah"; }
+                    }
+                }
+        
+                saham['Kakek (' + opsiKakek + ')'] = { n: kakek_F[0], d: kakek_F[1], isAsabah: false, count: 1 };
+        
+                // Eksekusi Pembagian Saudara (Logika Al-Mu'addah & Zaidiyyah)
+                let sib_F = subF(sumF[0] === 0 ? [1, 1] : R, kakek_F);
+        
+                if (sib_F[0] > 0) { // Jika ada harta untuk saudara
+                    if (aw.sdrLk > 0 || aw.sdrPr > 0) { // Jika ada Saudara Kandung
+                        if (aw.sdrLk > 0) {
+                            // Sdr Laki Kandung mengambil seluruh sisa, menghalangi Sdr Sebapak
+                            saham['Sdr Kandung (Asabah Jadd wa Ikhwah)'] = { n: sib_F[0], d: sib_F[1], isAsabah: false, isExactAsabah: true, lk: aw.sdrLk, pr: aw.sdrPr };
+                        } else {
+                            // Kasus khusus: Saudari Kandung (tanpa Saudara Lk Kandung) -> Zaidiyyah logic
+                            let limitF = (aw.sdrPr === 1) ? [1, 2] : [2, 3]; // Batas Fardh Saudari
+                            let valSib = sib_F[0] / sib_F[1];
+                            let valLimit = limitF[0] / limitF[1];
+                            
+                            if (valSib > valLimit + 1e-9) { // Jika sisa melebihi hak Fardh mereka
+                                saham['Sdr Pr Kandung (Mu\'addah/Zaidiyyah)'] = { n: limitF[0], d: limitF[1], isAsabah: false, isExactAsabah: true, lk: 0, pr: aw.sdrPr };
+                                let pat_F = subF(sib_F, limitF); // Lebihan diserahkan kepada Saudara Sebapak
+                                if (aw.sdrLkBapak > 0 || aw.sdrPrBapak > 0) {
+                                    saham['Sdr Sebapak (Sisa Mu\'addah)'] = { n: pat_F[0], d: pat_F[1], isAsabah: false, isExactAsabah: true, lk: aw.sdrLkBapak, pr: aw.sdrPrBapak };
+                                }
+                            } else { // Jika sisa tidak mencukupi hak Fardh penuh, ambil semua dan Sdr Sebapak gugur
+                                saham['Sdr Pr Kandung (Mu\'addah - Harta Habis)'] = { n: sib_F[0], d: sib_F[1], isAsabah: false, isExactAsabah: true, lk: 0, pr: aw.sdrPr };
+                            }
+                        }
+                    } else { // Hanya ada Saudara Sebapak
+                        saham['Sdr Sebapak (Asabah Jadd wa Ikhwah)'] = { n: sib_F[0], d: sib_F[1], isAsabah: false, isExactAsabah: true, lk: aw.sdrLkBapak, pr: aw.sdrPrBapak };
+                    }
+                }
+            }
+        
+            // =================================================================
+            // LANJUTAN KODE NORMAL JIKA BUKAN KASUS JADD WA IKHWAH
+            // =================================================================
             let ayahAsabah = false;
             let kakekAsabah = false;
             
@@ -464,13 +536,19 @@
                 else ayahAsabah = true;
             }
         
-            if (aw.kakek > 0) {
+            if (aw.kakek > 0 && !kakekJaddWaIkhwah) {
                 if (hasFuruLk) saham['Kakek'] = { n: 1, d: 6, isAsabah: false, count: 1 };
                 else if (hasFuru) { saham['Kakek'] = { n: 1, d: 6, isAsabah: true, count: 1 }; kakekAsabah = true; }
-                else if (aw.sdrLk > 0 || aw.sdrPr > 0 || aw.sdrLkBapak > 0 || aw.sdrPrBapak > 0) {
-                    saham['Kakek (Jadd wa Ikhwah)'] = { n: 1, d: 3, isAsabah: false, count: 1 }; 
-                }
                 else kakekAsabah = true;
+            }
+        
+            if (aw.sdrPr > 0 && aw.sdrLk === 0 && !sdrPrKandungAsabahGhair && aw.kakek === 0) {
+                saham['Sdr Pr Sekandung'] = { n: aw.sdrPr === 1 ? 1 : 2, d: aw.sdrPr === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPr };
+            }
+            
+            if (aw.sdrPrBapak > 0 && aw.sdrLkBapak === 0 && !sdrPrBapakAsabahGhair && aw.kakek === 0) {
+                if (aw.sdrPr === 0) saham['Sdr Pr Sebapak'] = { n: aw.sdrPrBapak === 1 ? 1 : 2, d: aw.sdrPrBapak === 1 ? 2 : 3, isAsabah: false, count: aw.sdrPrBapak };
+                else if (aw.sdrPr === 1) saham['Sdr Pr Sebapak (Takmilah)'] = { n: 1, d: 6, isAsabah: false, count: aw.sdrPrBapak };
             }
         
             // 3. TENTUKAN ASABAH (SISA) BERJENJANG
@@ -488,10 +566,10 @@
             } else if (kakekAsabah) {
                 asabahPihak = 'Kakek';
                 if(!saham['Kakek']) saham['Kakek (Asabah)'] = { isAsabah: true, count: 1 };
-            } else if (aw.sdrLk > 0 || sdrPrKandungAsabahGhair) {
+            } else if ((aw.sdrLk > 0 || sdrPrKandungAsabahGhair) && !kakekJaddWaIkhwah) {
                 asabahPihak = 'Saudara Sekandung';
                 saham['Asabah (Sdr Sekandung)'] = { isAsabah: true, lk: aw.sdrLk, pr: aw.sdrPr };
-            } else if (aw.sdrLkBapak > 0 || sdrPrBapakAsabahGhair) {
+            } else if ((aw.sdrLkBapak > 0 || sdrPrBapakAsabahGhair) && !kakekJaddWaIkhwah) {
                 asabahPihak = 'Saudara Sebapak';
                 saham['Asabah (Sdr Sebapak)'] = { isAsabah: true, lk: aw.sdrLkBapak, pr: aw.sdrPrBapak };
             } else if (aw.keponakanLk > 0) {
@@ -549,7 +627,7 @@
                 }
             }
         
-            // 6. DISTRIBUSI KE ASABAH
+            // 6. DISTRIBUSI KE ASABAH (Standar)
             if (asabahPihak && sisaSaham > 0) {
                 let found = false;
                 for (let key in saham) {
@@ -588,7 +666,8 @@
                     detilUang = `<div>${count} Orang Dibagi Rata: <span class="font-extrabold text-emerald-700">Rp ${totalUang.toLocaleString('id-ID')}</span> <span class="text-xs text-slate-500">(Rp ${(totalUang/count).toLocaleString('id-ID')}/org)</span></div>
                                  <div class="text-[11px] text-slate-500 mt-1 leading-normal">Gabungan: ${saham[key].sdrIbu} Sdr Seibu, ${saham[key].sdrLk} Sdr Lk Kandung, ${saham[key].sdrPr} Sdr Pr Kandung. Bagian Laki-laki dan Perempuan sama besar (1:1).</div>`;
                 } 
-                else if (saham[key]?.isAsabah && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr') || key.includes('Keponakan') || key.includes('Paman') || key.includes('Pembebas'))) {
+                // Menggunakan properti isExactAsabah agar logika pembagian 2:1 tetap berjalan pada Zaidiyyah/Mu'addah
+                else if ((saham[key]?.isAsabah || saham[key]?.isExactAsabah) && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr') || key.includes('Keponakan') || key.includes('Paman') || key.includes('Pembebas'))) {
                     let d = saham[key];
                     let totalKepala = (d.pr !== undefined) ? (d.lk * 2) + d.pr : d.lk; 
                     let uangPerKepala = (porsi * nilaiPerSaham) / totalKepala;
