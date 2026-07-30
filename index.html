@@ -14,36 +14,41 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
             min-height: 100vh;
         }
-        .font-arabic {
-            font-family: 'Amiri', serif;
-        }
-        /* HEADER MELENGKUNG MENYATU SEPERTI GAMBAR 2 */
+        .font-arabic { font-family: 'Amiri', serif; }
+        
+        /* HEADER MELENGKUNG HALUS & MENYATU */
         .header-hero {
-            background: linear-gradient(180deg, #064e3b 0%, #047857 60%, #059669 100%);
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: 0 15px 30px -10px rgba(5, 150, 105, 0.35);
+            background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%);
+            border-bottom-left-radius: 48px;
+            border-bottom-right-radius: 48px;
+            box-shadow: 0 20px 40px -15px rgba(5, 150, 105, 0.35);
         }
-        /* EFEK KARTU MELAYANG & TIMBUL */
-        .card-elevated {
+
+        /* EFEK KARTU TIMBUL BERKELAS (CLEAN ELEVATION) */
+        .card-main {
             background: #ffffff;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
-            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            border-radius: 28px;
         }
-        .input-box {
-            background: #ffffff;
+
+        .heir-input-card {
+            background: #f8fafc;
             border: 1.5px solid #e2e8f0;
             border-radius: 16px;
+            padding: 12px 14px;
             transition: all 0.2s ease;
         }
-        .input-box:focus {
-            border-color: #059669;
-            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+        .heir-input-card:focus-within {
+            background: #ffffff;
+            border-color: #10b981;
+            box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.15);
+            transform: translateY(-1px);
         }
+
         .btn-gold-gradient {
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
             box-shadow: 0 10px 25px -4px rgba(5, 150, 105, 0.45);
@@ -54,64 +59,81 @@
             transform: translateY(-2px);
             box-shadow: 0 15px 30px -4px rgba(5, 150, 105, 0.55);
         }
-        /* KOTAK INPUT AHLI WARIS DALAM KARTU */
-        .heir-item {
-            background: #ffffff;
-            border: 1px solid #f1f5f9;
-            border-radius: 16px;
-            padding: 14px;
-            box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-            transition: border-color 0.2s;
+
+        /* CARD HASIL ELEGAN (TIDAK HITAM PEKAT LAGI) */
+        .result-panel {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1.5px solid #e2e8f0;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
         }
-        .heir-item:focus-within {
+
+        .result-item-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 16px 20px;
+            box-shadow: 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .result-item-card::left {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: #10b981;
+        }
+        .result-item-card:hover {
             border-color: #10b981;
-            background: #fcfdfe;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.12);
         }
     </style>
 </head>
-<body class="text-slate-800 pb-16">
+<body class="text-slate-800 pb-20">
 
-    <!-- HEADER/BANNER HIJAU MENYATU SEPENUHNYA (GAYA GAMBAR 2) -->
-    <div class="header-hero w-full text-white pt-10 pb-20 px-4 sm:px-6 text-center relative overflow-hidden">
-        <!-- Elemen cahaya pendar halus latar belakang -->
-        <div class="absolute -right-16 -top-16 w-56 h-56 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -left-16 -bottom-16 w-56 h-56 bg-teal-300/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- HEADER HIJAU MENYATU SEPENUHNYA -->
+    <div class="header-hero w-full text-white pt-10 pb-24 px-4 sm:px-6 text-center relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-teal-300/10 rounded-full blur-3xl pointer-events-none"></div>
         
         <div class="max-w-3xl mx-auto relative z-10">
-            <span class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[11px] font-bold tracking-widest uppercase mb-4 text-emerald-200 shadow-sm">
+            <span class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[11px] font-extrabold tracking-widest uppercase mb-4 text-emerald-200 shadow-sm">
                 ILMU FARAID • AHWAL AL-SYAKHSHIYYAH
             </span>
-            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3 text-white">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-3 text-white">
                 Kalkulator Waris Faraid
             </h1>
             <p class="text-emerald-100/90 text-sm sm:text-base max-w-xl mx-auto font-normal leading-relaxed">
-                Perhitungan akurat pembagian harta warisan berdasarkan kaidah <span class="font-bold text-amber-300">Mazhab Syafi'i</span> (Lengkap 10 Ahli Waris Laki-laki & 7 Ahli Waris Perempuan).
+                Perhitungan akurat pembagian harta warisan berdasarkan kaidah <span class="font-bold text-amber-300">Mazhab Syafi'i</span> (10 Ahli Waris Laki-laki & 7 Ahli Waris Perempuan).
             </p>
         </div>
     </div>
 
-    <!-- WADAH KARTU TIMBUL MELAYANG (-MT-10 AGAR MENYATU DENGAN HEADER) -->
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 -mt-10 relative z-20">
+    <!-- WADAH UTAMA - LAYOUT SEIMBANG (6:6 GRID DI PC) -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 -mt-14 relative z-20">
         
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- KOLOM KIRI: FORM INPUT -->
+            <!-- KOLOM KIRI (FORM INPUT) : 7 KOLOM -->
             <div class="lg:col-span-7 space-y-6">
                 
                 <!-- KARTU 1: DATA PEWARIS -->
-                <div class="card-elevated p-6 sm:p-7">
-                    <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
+                <div class="card-main p-6 sm:p-8">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                         <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
-                        <h2 class="text-base font-extrabold text-slate-800 uppercase tracking-wide">1. DATA PEWARIS</h2>
+                        <h2 class="text-lg font-extrabold text-slate-800 uppercase tracking-wide">1. DATA PEWARIS</h2>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">TOTAL HARTA WARISAN (RP)</label>
-                            <input type="number" id="totalHarta" class="w-full p-3.5 input-box text-sm font-bold text-slate-800 outline-none" placeholder="Contoh: 100000000" value="100000000">
+                            <input type="number" id="totalHarta" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition-all" placeholder="Contoh: 100000000" value="100000000">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ALMARHUM / ALMARHUMAH</label>
-                            <select id="gender" class="w-full p-3.5 input-box text-sm font-bold text-slate-800 outline-none">
+                            <select id="gender" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition-all">
                                 <option value="l">Laki-laki (Meninggalkan Istri)</option>
                                 <option value="p">Perempuan (Meninggalkan Suami)</option>
                             </select>
@@ -120,151 +142,156 @@
                 </div>
 
                 <!-- KARTU 2: AHLI WARIS -->
-                <div class="card-elevated p-6 sm:p-7">
-                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
-                        <div class="flex items-center gap-2.5">
+                <div class="card-main p-6 sm:p-8">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-3">
                             <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
-                            <h2 class="text-base font-extrabold text-slate-800 uppercase tracking-wide">2. JUMLAH AHLI WARIS</h2>
+                            <h2 class="text-lg font-extrabold text-slate-800 uppercase tracking-wide">2. JUMLAH AHLI WARIS</h2>
                         </div>
-                        <span class="text-[11px] font-semibold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Isi angka 0 jika tidak ada</span>
+                        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">Isi angka 0 jika tidak ada</span>
                     </div>
                     
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                         <!-- Pasangan -->
-                        <div class="col-span-2 sm:col-span-1 heir-item">
-                            <label id="labelPasangan" class="block text-xs font-bold text-emerald-800 mb-1">Istri</label>
-                            <input type="number" id="pasangan" min="0" max="4" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="col-span-2 sm:col-span-1 heir-input-card">
+                            <label id="labelPasangan" class="block text-xs font-extrabold text-emerald-700 mb-1">Istri</label>
+                            <input type="number" id="pasangan" min="0" max="4" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
 
                         <!-- Ushul -->
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Ayah</label>
-                            <input type="number" id="ayah" min="0" max="1" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Ayah</label>
+                            <input type="number" id="ayah" min="0" max="1" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Ibu</label>
-                            <input type="number" id="ibu" min="0" max="1" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Ibu</label>
+                            <input type="number" id="ibu" min="0" max="1" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Kakek (Sahih)</label>
-                            <input type="number" id="kakek" min="0" max="1" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Kakek (Sahih)</label>
+                            <input type="number" id="kakek" min="0" max="1" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Nenek (Sahihah)</label>
-                            <input type="number" id="nenek" min="0" max="2" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Nenek (Sahihah)</label>
+                            <input type="number" id="nenek" min="0" max="2" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
 
                         <!-- Furu' -->
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-emerald-800 mb-1">Anak Laki-laki</label>
-                            <input type="number" id="anakLk" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-emerald-700 mb-1">Anak Laki-laki</label>
+                            <input type="number" id="anakLk" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-emerald-800 mb-1">Anak Perempuan</label>
-                            <input type="number" id="anakPr" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-emerald-700 mb-1">Anak Perempuan</label>
+                            <input type="number" id="anakPr" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Cucu Lk (Anak Lk)</label>
-                            <input type="number" id="cucuLk" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Cucu Lk (Anak Lk)</label>
+                            <input type="number" id="cucuLk" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Cucu Pr (Anak Lk)</label>
-                            <input type="number" id="cucuPr" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Cucu Pr (Anak Lk)</label>
+                            <input type="number" id="cucuPr" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
 
                         <!-- Hawasyi -->
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Sdr Lk Sekandung</label>
-                            <input type="number" id="sdrLk" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Sdr Lk Sekandung</label>
+                            <input type="number" id="sdrLk" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Sdr Pr Sekandung</label>
-                            <input type="number" id="sdrPr" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Sdr Pr Sekandung</label>
+                            <input type="number" id="sdrPr" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Sdr Lk Sebapak</label>
-                            <input type="number" id="sdrLkBapak" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Sdr Lk Sebapak</label>
+                            <input type="number" id="sdrLkBapak" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Sdr Pr Sebapak</label>
-                            <input type="number" id="sdrPrBapak" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-slate-600 mb-1">Sdr Pr Sebapak</label>
+                            <input type="number" id="sdrPrBapak" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
-                        <div class="heir-item">
-                            <label class="block text-xs font-bold text-teal-800 mb-1">Sdr Seibu (Lk/Pr)</label>
-                            <input type="number" id="sdrIbu" min="0" value="0" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                        <div class="heir-input-card">
+                            <label class="block text-xs font-extrabold text-teal-700 mb-1">Sdr Seibu (Lk/Pr)</label>
+                            <input type="number" id="sdrIbu" min="0" value="0" class="w-full p-2 bg-transparent text-base font-extrabold text-slate-800 outline-none">
                         </div>
 
                         <!-- Asabah Lainnya -->
-                        <div class="col-span-2 sm:col-span-3 mt-3 pt-4 border-t border-slate-100">
-                            <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-3">Kerabat Lain (Asabah) & Pembebas Budak</h3>
+                        <div class="col-span-2 sm:col-span-3 mt-4 pt-4 border-t border-slate-100">
+                            <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-3">Kerabat Lain (Asabah) & Pembebas Budak</h3>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <div class="heir-item">
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Keponakan Lk</label>
-                                    <input type="number" id="keponakanLk" min="0" value="0" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                                <div class="heir-input-card">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Keponakan Lk</label>
+                                    <input type="number" id="keponakanLk" min="0" value="0" class="w-full p-1 bg-transparent text-sm font-extrabold text-slate-800 outline-none">
                                 </div>
-                                <div class="heir-item">
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Paman (Bapak)</label>
-                                    <input type="number" id="paman" min="0" value="0" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                                <div class="heir-input-card">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Paman (Bapak)</label>
+                                    <input type="number" id="paman" min="0" value="0" class="w-full p-1 bg-transparent text-sm font-extrabold text-slate-800 outline-none">
                                 </div>
-                                <div class="heir-item">
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Sepupu Lk</label>
-                                    <input type="number" id="anakPaman" min="0" value="0" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                                <div class="heir-input-card">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Sepupu Lk</label>
+                                    <input type="number" id="anakPaman" min="0" value="0" class="w-full p-1 bg-transparent text-sm font-extrabold text-slate-800 outline-none">
                                 </div>
-                                <div class="heir-item">
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Pembebas (Mu'tiq)</label>
-                                    <input type="number" id="mutiq" min="0" value="0" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-bold text-slate-800 outline-none focus:border-emerald-600">
+                                <div class="heir-input-card">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Pembebas (Mu'tiq)</label>
+                                    <input type="number" id="mutiq" min="0" value="0" class="w-full p-1 bg-transparent text-sm font-extrabold text-slate-800 outline-none">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- TOMBOL HITUNG SUPER ELEGAN -->
-                <button onclick="hitungFaraid()" class="w-full btn-gold-gradient text-white font-extrabold py-4 px-6 rounded-2xl text-base uppercase tracking-wider flex items-center justify-center gap-2.5">
+                <!-- TOMBOL HITUNG ELEGAN -->
+                <button onclick="hitungFaraid()" class="w-full btn-gold-gradient text-white font-black py-4 px-6 rounded-2xl text-base uppercase tracking-wider flex items-center justify-center gap-2.5">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                     Hitung Pembagian Warisan
                 </button>
             </div>
 
-            <!-- KOLOM KANAN: HASIL PERHITUNGAN -->
-            <div class="lg:col-span-5 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-800 lg:sticky lg:top-6">
+            <!-- KOLOM KANAN (HASIL OUTPUT) : 5 KOLOM - DESAIN TERANG & MENYATU -->
+            <div class="lg:col-span-5 result-panel p-6 sm:p-8 lg:sticky lg:top-8">
                 
-                <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                <div class="flex items-center justify-between border-b border-slate-200/80 pb-5 mb-6">
                     <div>
-                        <span class="text-[11px] uppercase tracking-widest text-emerald-400 font-extrabold block">Hasil Perhitungan</span>
-                        <h2 class="text-xl sm:text-2xl font-black text-white">Distribusi Harta</h2>
+                        <span class="text-xs uppercase tracking-widest text-emerald-600 font-extrabold block">Hasil Perhitungan</span>
+                        <h2 class="text-2xl font-black text-slate-800">Distribusi Harta</h2>
                     </div>
-                    <span class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-base">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100/80 border border-emerald-200 flex items-center justify-center text-emerald-700 font-black text-lg shadow-sm">
                         %
-                    </span>
+                    </div>
                 </div>
 
                 <!-- Status Aul / Rad -->
-                <div id="statusKondisi" class="text-xs sm:text-sm font-bold px-4 py-3.5 bg-amber-500/20 border border-amber-500/40 text-amber-200 rounded-2xl mb-6 hidden">
+                <div id="statusKondisi" class="text-xs sm:text-sm font-bold px-4 py-3.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl mb-6 hidden">
                 </div>
 
                 <!-- Hasil Per Ahli Waris -->
-                <div id="hasilDiv" class="space-y-3 min-h-[160px]">
-                    <div class="flex flex-col items-center justify-center py-12 text-center text-slate-500">
-                        <svg class="w-12 h-12 mb-3 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        <p class="text-sm font-semibold text-slate-400">Belum Ada Perhitungan</p>
-                        <p class="text-xs text-slate-600 mt-1 max-w-[240px]">Lengkapi data ahli waris di sebelah kiri lalu klik tombol hitung.</p>
+                <div id="hasilDiv" class="space-y-3 min-h-[220px]">
+                    <div class="flex flex-col items-center justify-center py-14 text-center text-slate-400">
+                        <div class="w-16 h-16 rounded-3xl bg-slate-100 flex items-center justify-center mb-3 text-slate-400 shadow-inner">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <p class="text-base font-bold text-slate-600">Belum Ada Perhitungan</p>
+                        <p class="text-xs text-slate-400 mt-1 max-w-[260px]">Lengkapi jumlah ahli waris di sebelah kiri lalu klik tombol hitung.</p>
                     </div>
                 </div>
                 
                 <!-- Penyelesaian Matematika / Asal Masalah -->
-                <div class="mt-8 pt-5 border-t border-slate-800">
-                    <span class="text-[11px] uppercase tracking-wider text-slate-500 font-extrabold block mb-3">
+                <div class="mt-8 pt-5 border-t border-slate-200">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 font-extrabold block mb-3">
                         Penyelesaian Matematika (Asal Masalah)
                     </span>
-                    <div id="asalMasalahDiv" class="font-mono text-xs sm:text-sm bg-slate-950 p-4 border border-slate-800/80 rounded-2xl text-emerald-300 leading-relaxed">
-                        -
+                    <div id="asalMasalahDiv" class="font-mono text-xs sm:text-sm bg-slate-900 p-5 border border-slate-800 rounded-2xl text-emerald-300 leading-relaxed shadow-lg">
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>Asal Masalah:</span>
+                            <span class="font-bold text-white">-</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Footer Kecil -->
                 <div class="mt-6 text-center">
-                    <span class="text-[11px] text-slate-500 font-medium">
+                    <span class="text-xs text-slate-400 font-semibold">
                         &copy; 2026 Layanan Administrasi Akademik • Mazhab Syafi'i
                     </span>
                 </div>
@@ -534,7 +561,7 @@
                 if(!found && saham['Kakek']) furudhData['Kakek'] = (furudhData['Kakek'] || 0) + sisaSaham;
             }
         
-            // 7. RENDER HASIL OUTPUT
+            // 7. RENDER HASIL OUTPUT (PANEL TERANG YANG ELEGAN)
             let hasilHTML = "";
             let statusEl = document.getElementById('statusKondisi');
             
@@ -557,8 +584,8 @@
                 if (saham[key]?.isMusytarakahGroup) {
                     let count = saham[key].count;
                     let totalUang = porsi * nilaiPerSaham;
-                    detilUang = `<div>${count} Orang Dibagi Rata: <span class="font-extrabold text-emerald-300">Rp ${totalUang.toLocaleString('id-ID')}</span> <span class="text-xs text-slate-400">(Rp ${(totalUang/count).toLocaleString('id-ID')}/org)</span></div>
-                                 <div class="text-[11px] text-slate-400 mt-1 leading-normal">Gabungan: ${saham[key].sdrIbu} Sdr Seibu, ${saham[key].sdrLk} Sdr Lk Kandung, ${saham[key].sdrPr} Sdr Pr Kandung. Bagian Laki-laki dan Perempuan sama besar (1:1).</div>`;
+                    detilUang = `<div>${count} Orang Dibagi Rata: <span class="font-extrabold text-emerald-700">Rp ${totalUang.toLocaleString('id-ID')}</span> <span class="text-xs text-slate-500">(Rp ${(totalUang/count).toLocaleString('id-ID')}/org)</span></div>
+                                 <div class="text-[11px] text-slate-500 mt-1 leading-normal">Gabungan: ${saham[key].sdrIbu} Sdr Seibu, ${saham[key].sdrLk} Sdr Lk Kandung, ${saham[key].sdrPr} Sdr Pr Kandung. Bagian Laki-laki dan Perempuan sama besar (1:1).</div>`;
                 } 
                 else if (saham[key]?.isAsabah && (key.includes('Anak') || key.includes('Cucu') || key.includes('Sdr') || key.includes('Keponakan') || key.includes('Paman') || key.includes('Pembebas'))) {
                     let d = saham[key];
@@ -566,39 +593,39 @@
                     let uangPerKepala = (porsi * nilaiPerSaham) / totalKepala;
                     
                     if (d.pr !== undefined) {
-                        if (d.lk > 0) detilUang += `<div>Pria (${d.lk} org): <span class="font-extrabold text-emerald-300">Rp ${(uangPerKepala * 2 * d.lk).toLocaleString('id-ID')}</span> <span class="text-xs text-slate-400">(Rp ${(uangPerKepala * 2).toLocaleString('id-ID')}/org)</span></div>`;
-                        if (d.pr > 0) detilUang += `<div>Wanita (${d.pr} org): <span class="font-extrabold text-emerald-300">Rp ${(uangPerKepala * d.pr).toLocaleString('id-ID')}</span> <span class="text-xs text-slate-400">(Rp ${uangPerKepala.toLocaleString('id-ID')}/org)</span></div>`;
+                        if (d.lk > 0) detilUang += `<div>Pria (${d.lk} org): <span class="font-extrabold text-emerald-700">Rp ${(uangPerKepala * 2 * d.lk).toLocaleString('id-ID')}</span> <span class="text-xs text-slate-500">(Rp ${(uangPerKepala * 2).toLocaleString('id-ID')}/org)</span></div>`;
+                        if (d.pr > 0) detilUang += `<div>Wanita (${d.pr} org): <span class="font-extrabold text-emerald-700">Rp ${(uangPerKepala * d.pr).toLocaleString('id-ID')}</span> <span class="text-xs text-slate-500">(Rp ${uangPerKepala.toLocaleString('id-ID')}/org)</span></div>`;
                     } else {
-                        detilUang += `<div>${d.lk} Orang: <span class="font-extrabold text-emerald-300">Rp ${(porsi * nilaiPerSaham).toLocaleString('id-ID')}</span> <span class="text-xs text-slate-400">(Rp ${(porsi * nilaiPerSaham / d.lk).toLocaleString('id-ID')}/org)</span></div>`;
+                        detilUang += `<div>${d.lk} Orang: <span class="font-extrabold text-emerald-700">Rp ${(porsi * nilaiPerSaham).toLocaleString('id-ID')}</span> <span class="text-xs text-slate-500">(Rp ${(porsi * nilaiPerSaham / d.lk).toLocaleString('id-ID')}/org)</span></div>`;
                     }
                 } else if (key === 'Saudara Seibu') {
                     let count = saham[key].count;
                     let totalUang = porsi * nilaiPerSaham;
-                    detilUang = `<div>${count} Orang Dibagi Rata (Lk/Pr): <span class="font-extrabold text-emerald-300">Rp ${totalUang.toLocaleString('id-ID')}</span> <span class="text-xs text-slate-400">(Rp ${(totalUang/count).toLocaleString('id-ID')}/org)</span></div>`;
+                    detilUang = `<div>${count} Orang Dibagi Rata (Lk/Pr): <span class="font-extrabold text-emerald-700">Rp ${totalUang.toLocaleString('id-ID')}</span> <span class="text-xs text-slate-500">(Rp ${(totalUang/count).toLocaleString('id-ID')}/org)</span></div>`;
                 } else {
                     let count = saham[key]?.count || 1;
                     let totalUang = porsi * nilaiPerSaham;
-                    detilUang = `<div>${count > 1 ? count + ' Orang' : '1 Orang'}: <span class="font-extrabold text-emerald-300">Rp ${totalUang.toLocaleString('id-ID')}</span> ${count > 1 ? '<span class="text-xs text-slate-400">(Masing-masing: Rp ' + (totalUang/count).toLocaleString('id-ID') + ')' : ''}</span></div>`;
+                    detilUang = `<div>${count > 1 ? count + ' Orang' : '1 Orang'}: <span class="font-extrabold text-emerald-700">Rp ${totalUang.toLocaleString('id-ID')}</span> ${count > 1 ? '<span class="text-xs text-slate-500">(Masing-masing: Rp ' + (totalUang/count).toLocaleString('id-ID') + ')' : ''}</span></div>`;
                 }
         
                 hasilHTML += `
-                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 hover:border-emerald-500/50 transition-colors shadow-sm">
+                    <div class="result-item-card">
                         <div class="flex justify-between items-center mb-1.5">
-                            <span class="font-bold text-white text-base">${namaDisplay}</span>
-                            <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-md font-mono font-bold">${porsi} / ${asalMasalah} bagian</span>
+                            <span class="font-extrabold text-slate-800 text-base">${namaDisplay}</span>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 border border-emerald-300/80 px-2.5 py-1 rounded-full font-mono font-extrabold">${porsi} / ${asalMasalah} bagian</span>
                         </div>
-                        <div class="text-sm text-slate-300 mt-1">${detilUang}</div>
+                        <div class="text-sm text-slate-600 mt-1">${detilUang}</div>
                     </div>
                 `;
             }
         
             if(Object.keys(furudhData).length === 0) {
-                hasilHTML = `<div class="bg-red-900/30 border border-red-500/40 p-4 rounded-xl text-red-300 text-sm text-center font-bold">Tidak ada ahli waris yang memenuhi syarat menerima bagian. Pastikan form ahli waris diisi dengan benar.</div>`;
+                hasilHTML = `<div class="bg-red-50 border border-red-200 p-4 rounded-2xl text-red-700 text-sm text-center font-bold">Tidak ada ahli waris yang memenuhi syarat. Pastikan jumlah ahli waris diisi.</div>`;
             }
         
             document.getElementById('hasilDiv').innerHTML = hasilHTML;
             document.getElementById('asalMasalahDiv').innerHTML = `
-                <div class="flex justify-between items-center border-b border-slate-800 pb-2 mb-2">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2.5 mb-2.5">
                     <span class="text-slate-400">Asal Masalah:</span>
                     <span class="font-bold text-white text-base">${asalMasalah}</span>
                 </div>
