@@ -290,19 +290,45 @@
                     </div>
                 </div>
 
-                <!-- Footer Kecil -->
-                <div class="mt-5 text-center flex flex-col gap-2">
+                <!-- Bahan Bacaan & Referensi PDF (KARTU BARU) -->
+                <div class="mt-6 pt-5 border-t border-slate-200/80">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-extrabold block mb-3">
+                        Bahan Bacaan & Referensi
+                    </span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        
+                        <!-- Kartu PDF 1 -->
+                        <a href="https://drive.google.com/file/d/1YzWCOaegtwsGUxulg31brXbqTObYnb2o/view?usp=drive_link" target="_blank" class="flex items-center gap-3 p-3 bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-md rounded-xl transition-all group outline-none">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
+                                <i class="fas fa-file-pdf text-lg"></i>
+                            </div>
+                            <div class="flex flex-col text-left">
+                                <span class="text-[11px] font-extrabold text-slate-700 leading-tight group-hover:text-emerald-700 transition-colors">Materi Waris Faraid</span>
+                                <span class="text-[9px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide">Dokumen PDF</span>
+                            </div>
+                        </a>
+
+                        <!-- Kartu PDF 2 -->
+                        <a href="https://drive.google.com/file/d/1XejSGRGb0m2MFfXHXQzDa2_HQfMyEOBQ/view?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-md rounded-xl transition-all group outline-none">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
+                                <i class="fas fa-file-pdf text-lg"></i>
+                            </div>
+                            <div class="flex flex-col text-left">
+                                <span class="text-[11px] font-extrabold text-slate-700 leading-tight group-hover:text-emerald-700 transition-colors">Problematika Pembagian Waris</span>
+                                <span class="text-[9px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide">Dokumen PDF</span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Footer Kecil (Dikembalikan ke semula agar rapi) -->
+                <div class="mt-6 text-center">
                     <span class="text-xs text-slate-400 font-semibold">
                         &copy; 2024 Abdul Hakim, S.H., M.A. • Nuryadi • Muhammad Syafiul Umam
                     </span>
-                    
-                <!-- KARTU MATERI WARIS (BARU) -->
-                    <a href="https://drive.google.com/file/d/1YzWCOaegtwsGUxulg31brXbqTObYnb2o/view?usp=drive_link" target="_blank" class="inline-flex items-center justify-center gap-2 mt-2 py-2 px-4 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-[11px] font-bold text-emerald-700 transition-colors mx-auto w-fit shadow-sm">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                        Materi Waris Faraid (PDF)
-                    </a>
                 </div>
-
+                
     <script>
         // Mengubah label Istri/Suami dinamis berdasarkan jenis kelamin
         document.getElementById('gender').addEventListener('change', function() {
