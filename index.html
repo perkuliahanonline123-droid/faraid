@@ -641,16 +641,33 @@
                 sisaSaham = 0;
             } else if (totalPembilang < asalMasalah && !asabahPihak) {
                 let pembilangTanpaPasangan = 0;
-                for(let key in furudhData) {
-                    if(key !== 'Suami' && key !== 'Istri') pembilangTanpaPasangan += furudhData[key];
+                let adaPasangan = false;
+            
+                for (let key in furudhData) {
+                    if (key === 'Suami' || key === 'Istri') {
+                        adaPasangan = true;
+                    } else {
+                        pembilangTanpaPasangan += furudhData[key];
+                    }
                 }
-                
+            
                 if (pembilangTanpaPasangan > 0) {
-                    statusText = `Terdapat Rad: Sisa harta dikembalikan proporsional ke ahli waris`;
-                    asalMasalah = totalPembilang; 
+                    if (adaPasangan) {
+                        statusText = `Terdapat Rad: Sisa harta dikembalikan proporsional kepada ahli waris (kecuali Suami/Istri)`;
+                        // CATATAN MATEMATIS: 
+                        // Jangan langsung "asalMasalah = totalPembilang" di sini, 
+                        // karena porsi pasangan akan ikut membesar.
+                        // Secara algoritmik, Anda harus memisahkan porsi pasangan tetap sesuai fardh-nya,
+                        // dan sisa hartanya baru dibagikan proporsional ke ahli waris lain.
+                        // asalMasalah = ... (membutuhkan fungsi perhitungan Rad khusus / Masalah Zaujiyah)
+                    } else {
+                        statusText = `Terdapat Rad: Sisa harta dikembalikan proporsional ke seluruh ahli waris`;
+                        asalMasalah = totalPembilang; // Ini VALID karena tidak ada pasangan
+                    }
                 } else {
-                    statusText = `Terdapat Rad: Seluruh sisa diserahkan ke Pasangan (ketiadaan ahli waris lain)`;
-                    asalMasalah = totalPembilang;
+                    // Jika pembilangTanpaPasangan === 0 (Artinya HANYA ada Suami/Istri)
+                    statusText = `Sisa harta diserahkan kepada Dzawil Arham atau Baitul Mal, tidak di-Rad-kan kepada Pasangan.`;
+                    // Asal masalah tetap, sisa saham (asalMasalah - totalPembilang) diberikan ke Baitul Mal/Dzawil Arham
                 }
             }
         
