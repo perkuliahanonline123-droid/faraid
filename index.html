@@ -290,38 +290,50 @@
                     </div>
                 </div>
 
-                <!-- Bahan Bacaan & Referensi PDF (KARTU BARU) -->
+                <!-- Bahan Bacaan & Referensi PDF -->
                 <div class="mt-6 pt-5 border-t border-slate-200/80">
                     <span class="text-[11px] uppercase tracking-wider text-slate-400 font-extrabold block mb-3">
                         Bahan Bacaan & Referensi
                     </span>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Menggunakan flex-col agar tersusun ke bawah -->
+                    <div class="flex flex-col gap-3">
                         
                         <!-- Kartu PDF 1 -->
-                        <a href="https://drive.google.com/file/d/1YzWCOaegtwsGUxulg31brXbqTObYnb2o/view?usp=drive_link" target="_blank" class="flex items-center gap-3 p-3 bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-md rounded-xl transition-all group outline-none">
-                            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
-                                <i class="fas fa-file-pdf text-lg"></i>
+                        <a href="https://drive.google.com/file/d/1YzWCOaegtwsGUxulg31brXbqTObYnb2o/view?usp=drive_link" target="_blank" class="flex items-center justify-between p-3.5 bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-md rounded-xl transition-all group outline-none">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
+                                    <i class="fas fa-file-pdf text-lg"></i>
+                                </div>
+                                <div class="flex flex-col text-left">
+                                    <span class="text-xs sm:text-sm font-extrabold text-slate-700 leading-tight group-hover:text-emerald-700 transition-colors">Materi Waris Faraid</span>
+                                    <span class="text-[10px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide">Dokumen PDF</span>
+                                </div>
                             </div>
-                            <div class="flex flex-col text-left">
-                                <span class="text-[11px] font-extrabold text-slate-700 leading-tight group-hover:text-emerald-700 transition-colors">Materi Waris Faraid</span>
-                                <span class="text-[9px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide">Dokumen PDF</span>
+                            <!-- Tambahan Ikon Panah di Kanan -->
+                            <div class="text-slate-300 group-hover:text-emerald-500 transition-colors shrink-0 pr-2">
+                                <i class="fas fa-chevron-right text-sm"></i>
                             </div>
                         </a>
 
                         <!-- Kartu PDF 2 -->
-                        <a href="https://drive.google.com/file/d/1XejSGRGb0m2MFfXHXQzDa2_HQfMyEOBQ/view?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-md rounded-xl transition-all group outline-none">
-                            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
-                                <i class="fas fa-file-pdf text-lg"></i>
+                        <a href="https://drive.google.com/file/d/1XejSGRGb0m2MFfXHXQzDa2_HQfMyEOBQ/view?usp=sharing" target="_blank" class="flex items-center justify-between p-3.5 bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-md rounded-xl transition-all group outline-none">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
+                                    <i class="fas fa-file-pdf text-lg"></i>
+                                </div>
+                                <div class="flex flex-col text-left">
+                                    <span class="text-xs sm:text-sm font-extrabold text-slate-700 leading-tight group-hover:text-emerald-700 transition-colors">Problematika Pembagian Waris Sebelum Meninggal</span>
+                                    <span class="text-[10px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide">Dokumen PDF</span>
+                                </div>
                             </div>
-                            <div class="flex flex-col text-left">
-                                <span class="text-[11px] font-extrabold text-slate-700 leading-tight group-hover:text-emerald-700 transition-colors">Problematika Pembagian Waris</span>
-                                <span class="text-[9px] font-bold text-slate-400 mt-0.5 uppercase tracking-wide">Dokumen PDF</span>
+                            <!-- Tambahan Ikon Panah di Kanan -->
+                            <div class="text-slate-300 group-hover:text-emerald-500 transition-colors shrink-0 pr-2">
+                                <i class="fas fa-chevron-right text-sm"></i>
                             </div>
                         </a>
 
                     </div>
                 </div>
-
                 <!-- Footer Kecil (Dikembalikan ke semula agar rapi) -->
                 <div class="mt-6 text-center">
                     <span class="text-xs text-slate-400 font-semibold">
